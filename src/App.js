@@ -62,9 +62,15 @@ class App extends Component {
   }
 
   nominateMovie = (movie) => {
-    this.setState(prev => ({
-      nominations: [...prev.nominations, movie]
-    }));  
+    this.setState({
+      nominations: [...this.state.nominations, movie]
+    });
+  }
+
+  removeNomination = (movie) => {
+    this.setState({
+      nominations: this.state.nominations.filter(nom => nom !== movie)
+    });
   }
 
   render() {
@@ -85,9 +91,12 @@ class App extends Component {
               finalSearchText={ this.state.finalSearchText }
               results={ this.state.results }
               nominateMovie={ this.nominateMovie }
+              nominations={ this.state.nominations }
             >
             </Results>
             <Nominations
+              nominations={ this.state.nominations }
+              removeNomination={ this.removeNomination }
             >
             </Nominations>
           </div>
