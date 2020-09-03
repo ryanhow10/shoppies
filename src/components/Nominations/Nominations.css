@@ -1,0 +1,29 @@
+.nominationsComponent {
+    position: relative;
+    background-color: white;
+    padding: 1rem;
+}
+
+.nominationsTitle {
+    margin: 0;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.nomination {
+    margin: 0.5rem;
+}
+
+.indicator {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+@media only screen and (min-width: 1000px) {
+    .nominationsComponent {
+        width: 50%;
+    }
+}
