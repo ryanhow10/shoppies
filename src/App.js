@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Search from './components/Search/Search';
 import Results from './components/Results/Results';
 import Nominations from './components/Nominations/Nominations';
+import Banner from './components/Banner/Banner';
 import './App.css';
 import axios from 'axios';
 
@@ -46,7 +47,6 @@ class App extends Component {
 
   handleSearch = (event) => {
     event.preventDefault();
-    this.handleSearchError("");
     axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&type=movie&s=${this.state.searchText}`)
       .then(resp => {
         if(resp.data.Response === 'True') {
@@ -62,14 +62,20 @@ class App extends Component {
   }
 
   nominateMovie = (movie) => {
-    this.setState({
-      nominations: [...this.state.nominations, movie]
-    });
+    this.setState(prevState => ({
+      nominations: [...prevState.nominations, movie]
+    }));
   }
 
   removeNomination = (movie) => {
+    this.setState(prevState => ({
+      nominations: prevState.nominations.filter(nom => nom !== movie)
+    }));
+  }
+
+  resetNominations = () => {
     this.setState({
-      nominations: this.state.nominations.filter(nom => nom !== movie)
+      nominations: []
     });
   }
 
@@ -84,6 +90,13 @@ class App extends Component {
           error={ this.state.searchError }
         >
         </Search>
+        { 
+          this.state.nominations.length === 5 &&
+          <Banner
+            resetNominations={ this.resetNominations }
+          >
+          </Banner>
+        }
         {
           this.state.results.length > 0 &&
           <div className="resultsAndNoms">

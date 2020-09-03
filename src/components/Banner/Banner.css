@@ -1,0 +1,25 @@
+.bannerContainer {
+    background-color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.bannerMessage {
+    margin: 0;
+    color: green;
+}
+
+.restartButton {
+    margin-top: 0.5rem;
+}
+
+@media only screen and (min-width: 900px) {
+    .bannerMessage {
+        display: inline
+    }
+
+    .restartButton {
+        float: right;
+        margin: 0;
+    }
+}
