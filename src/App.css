@@ -5,8 +5,8 @@
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-/* Specific styling for larger devices (i.e iPads & laptops)*/
-@media only screen and (min-width: 900px) {
+/* Specific styling for laptops*/
+@media only screen and (min-width: 1000px) {
   .container {
       margin: 4rem; 
       margin-left: 8rem;

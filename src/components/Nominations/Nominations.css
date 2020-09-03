@@ -1,12 +1,11 @@
-.nominationsComponent {
+.nominationsContainer {
     position: relative;
     background-color: white;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .nominationsTitle {
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0.5rem;  
     font-weight: bold;
 }
 
@@ -16,14 +15,26 @@
 
 .indicator {
     position: absolute;
-    bottom: 1rem;
+    bottom: 0.5rem;
     right: 1rem;
     font-size: 0.8em;
     margin: 0;
 }
 
-@media only screen and (min-width: 900px) {
-    .nominationsComponent {
+.removeButton {
+    cursor: pointer;
+}
+
+/* Specific styling for tablets*/
+@media only screen and (min-width: 768px) {
+    .removeButton {
+        float: right;
+    }
+}
+
+/* Specific styling for laptops*/
+@media only screen and (min-width: 1000px) {
+    .nominationsContainer {
         width: 50%;
     }
 }
