@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Results.css';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Results extends Component {
     isNominated(movie, nominations) {
@@ -19,7 +20,15 @@ class Results extends Component {
         return ( 
             <div className="resultsContainer">
                 <p className="resultsTitle">Results for "{ finalSearchText }"</p>
-                <ul>{ resultList }</ul>
+                <ul>
+                    <ReactCSSTransitionGroup
+                        transitionName="fade"
+                        transitionLeave={ false }
+                        transitionEnterTimeout={ 500 }
+                    >
+                    { resultList }
+                    </ReactCSSTransitionGroup>
+                </ul>
             </div>
         );
     }

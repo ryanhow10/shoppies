@@ -5,6 +5,7 @@ import Nominations from './components/Nominations/Nominations';
 import Banner from './components/Banner/Banner';
 import './App.css';
 import axios from 'axios';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
@@ -81,40 +82,59 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <h2>The Shoppies</h2>
-        <Search
-          searchText={ this.state.searchText }
-          searchTextChange={ this.handleSearchTextChange }
-          search={ this.handleSearch }
-          error={ this.state.searchError }
-        >
-        </Search>
-        { 
-          this.state.nominations.length === 5 &&
-          <Banner
-            resetNominations={ this.resetNominations }
+      <ReactCSSTransitionGroup 
+        transitionName="fade" 
+        transitionAppear={true}
+        transitionAppearTimeout={ 500 }
+      >
+        <div className="container">
+          <h2>The Shoppies</h2>
+          <Search
+            searchText={ this.state.searchText }
+            searchTextChange={ this.handleSearchTextChange }
+            search={ this.handleSearch }
+            error={ this.state.searchError }
           >
-          </Banner>
-        }
-        {
-          this.state.results.length > 0 &&
-          <div className="resultsAndNoms">
-            <Results
-              finalSearchText={ this.state.finalSearchText }
-              results={ this.state.results }
-              nominateMovie={ this.nominateMovie }
-              nominations={ this.state.nominations }
+          </Search>
+          { 
+            this.state.nominations.length === 5 &&
+            <ReactCSSTransitionGroup 
+              transitionName="fade" 
+              transitionAppear={ true }
+              transitionAppearTimeout={ 500 }
+              transitionLeaveTimeout={ 300 }
             >
-            </Results>
-            <Nominations
-              nominations={ this.state.nominations }
-              removeNomination={ this.removeNomination }
+              <Banner
+                resetNominations={ this.resetNominations }
+              >
+              </Banner>
+            </ReactCSSTransitionGroup>
+          }
+          {
+            this.state.results.length > 0 &&
+            <ReactCSSTransitionGroup 
+              transitionName="fade" 
+              transitionAppear={true}
+              transitionAppearTimeout={ 500 }
             >
-            </Nominations>
-          </div>
-        }
-      </div>
+              <div className="resultsAndNoms">
+                <Results
+                  finalSearchText={ this.state.finalSearchText }
+                  results={ this.state.results }
+                  nominateMovie={ this.nominateMovie }
+                  nominations={ this.state.nominations }
+                >
+                </Results>
+                <Nominations
+                  nominations={ this.state.nominations }
+                  removeNomination={ this.removeNomination }
+                >
+                </Nominations>
+              </div>
+            </ReactCSSTransitionGroup>
+          }
+        </div>
+      </ReactCSSTransitionGroup>
     );
   }
 }
