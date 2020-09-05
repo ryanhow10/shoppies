@@ -13,9 +13,19 @@ class Results extends Component {
     }
 
     render() {
-        const { finalSearchText, results, nominateMovie, nominations } = this.props;
+        const { searchText, results, nominateMovie, nominations } = this.props;
         const resultList = results.map(movie => {
-            return (<li className="result" key={ movie.imdbID }>{ movie.Title } ({ movie.Year }) <button type="button" className="nominateButton" onClick={ e => nominateMovie(movie) } disabled={ this.isNominated(movie, nominations) || nominations.length === 5 }>Nominate</button></li>)
+            return (
+                <li className="result" key={ movie.imdbID }>
+                    { movie.Title } ({ movie.Year }) 
+                    <button type="button" className="nominateButton" 
+                        onClick={ e => nominateMovie(movie) } 
+                        disabled={ this.isNominated(movie, nominations) || nominations.length === 5 }
+                    >
+                    { this.isNominated(movie, nominations) ? 'Nominated' : 'Nominate' }
+                    </button>
+                </li>
+            );
         });
         return ( 
             resultList.length > 0 ? 
@@ -23,12 +33,16 @@ class Results extends Component {
                 <ReactCSSTransitionGroup 
                     transitionName="fade"
                     transitionAppear={ true }
+                    transitionEnter={ false }
+                    transitionLeave={ false }
                     transitionAppearTimeout={ 500 }
                 >
-                    <p className="resultsTitle">Results for "{ finalSearchText }"</p>
+                    <p className="resultsTitle">Results for "{ searchText }"</p>
                     <ul>
                         <ReactCSSTransitionGroup
                             transitionName="fade"
+                            transitionAppear={ false }
+                            transitionEnter={ true }
                             transitionLeave={ false }
                             transitionEnterTimeout={ 500 }
                         >

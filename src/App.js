@@ -12,12 +12,13 @@ const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 class App extends Component {
   constructor() {
     super();
+
+    //Set nominations to locally stored nominations if they exist
     const storedNominations = localStorage.getItem("nominations");
     const nominations = storedNominations ? JSON.parse(storedNominations) : []; 
     this.state = {
       searchText: "",
       searchError: "",
-      finalSearchText: "",
       results: [],
       nominations: nominations
     }
@@ -26,19 +27,12 @@ class App extends Component {
   handleSearchTextChange = (event) => {
     this.setState({
       searchText: event.target.value,
-      searchError: ""
-    });
+    }, () => { this.handleSearch() });
   }
 
-  handleSearchError = (errorMessage) => {
+  handleSearchError = (error) => {
     this.setState({
-      searchError: errorMessage
-    });
-  }
-
-  setFinalSearchText = (finalSearchText) => {
-    this.setState({
-      finalSearchText: finalSearchText
+      searchError: error
     });
   }
 
@@ -48,15 +42,20 @@ class App extends Component {
     });
   }
 
-  handleSearch = (event) => {
-    event.preventDefault();
+  handleSearch = () => {
+    if(!this.state.searchText) {
+      this.handleSearchError("");
+      this.setSearchResults([]);
+      return;
+    }
     axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&type=movie&s=${this.state.searchText}`)
       .then(resp => {
         if(resp.data.Response === 'True') {
-          this.setFinalSearchText(this.state.searchText);
+          this.handleSearchError("");
           this.setSearchResults(resp.data.Search);
         } else {
           this.handleSearchError(resp.data.Error);
+          this.setSearchResults([]);
         }
       })
       .catch(err => {
@@ -90,7 +89,7 @@ class App extends Component {
     return (
       <ReactCSSTransitionGroup 
         transitionName="fade" 
-        transitionAppear={true}
+        transitionAppear={ true }
         transitionEnter={ false }
         transitionLeave={ false }
         transitionAppearTimeout={ 500 }
@@ -100,8 +99,7 @@ class App extends Component {
           <Search
             searchText={ this.state.searchText }
             searchTextChange={ this.handleSearchTextChange }
-            search={ this.handleSearch }
-            error={ this.state.searchError }
+            searchError={ this.state.searchError }
           >
           </Search>
           { 
@@ -109,6 +107,8 @@ class App extends Component {
             <ReactCSSTransitionGroup 
               transitionName="fade" 
               transitionAppear={ true }
+              transitionEnter={ false }
+              transitionLeave={ true }
               transitionAppearTimeout={ 500 }
               transitionLeaveTimeout={ 300 }
             >
@@ -120,18 +120,18 @@ class App extends Component {
           }
           <div className="resultsAndNoms">
             <Results
-              finalSearchText={ this.state.finalSearchText }
+              searchText={ this.state.searchText }
               results={ this.state.results }
               nominateMovie={ this.nominateMovie }
               nominations={ this.state.nominations }
             >
             </Results>
-              <Nominations
-                nominations={ this.state.nominations }
-                removeNomination={ this.removeNomination }
-              >
-              </Nominations>
-            </div>
+            <Nominations
+              nominations={ this.state.nominations }
+              removeNomination={ this.removeNomination }
+            >
+            </Nominations>
+          </div>
         </div>
       </ReactCSSTransitionGroup>
     );

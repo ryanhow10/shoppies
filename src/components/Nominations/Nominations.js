@@ -8,7 +8,8 @@ class Nominations extends Component {
         const nominationsList = nominations.map(movie => {
             return (
                 <li className="nomination" key={ movie.imdbID }>
-                    { movie.Title} ({movie.Year}) <button type="button" className="removeButton" onClick={ e => removeNomination(movie) }>Remove</button>
+                    { movie.Title} ({movie.Year}) 
+                    <button type="button" className="removeButton" onClick={ e => removeNomination(movie) }>Remove</button>
                 </li>
             );
         });
