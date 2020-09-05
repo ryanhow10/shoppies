@@ -12,12 +12,14 @@ const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 class App extends Component {
   constructor() {
     super();
+    const storedNominations = localStorage.getItem("nominations");
+    const nominations = storedNominations ? JSON.parse(storedNominations) : []; 
     this.state = {
       searchText: "",
       searchError: "",
       finalSearchText: "",
       results: [],
-      nominations: []
+      nominations: nominations
     }
   }
 
@@ -62,22 +64,26 @@ class App extends Component {
       });
   }
 
+  updateStoredNominations = () => {
+    localStorage.setItem("nominations", JSON.stringify(this.state.nominations));
+  }
+
   nominateMovie = (movie) => {
     this.setState(prevState => ({
       nominations: [...prevState.nominations, movie]
-    }));
+    }), () => { this.updateStoredNominations() });
   }
 
   removeNomination = (movie) => {
     this.setState(prevState => ({
       nominations: prevState.nominations.filter(nom => nom !== movie)
-    }));
+    }), () => { this.updateStoredNominations() });
   }
 
   resetNominations = () => {
     this.setState({
       nominations: []
-    });
+    }, () => { this.updateStoredNominations() });
   }
 
   render() {
@@ -85,6 +91,8 @@ class App extends Component {
       <ReactCSSTransitionGroup 
         transitionName="fade" 
         transitionAppear={true}
+        transitionEnter={ false }
+        transitionLeave={ false }
         transitionAppearTimeout={ 500 }
       >
         <div className="container">
@@ -110,29 +118,20 @@ class App extends Component {
               </Banner>
             </ReactCSSTransitionGroup>
           }
-          {
-            this.state.results.length > 0 &&
-            <ReactCSSTransitionGroup 
-              transitionName="fade" 
-              transitionAppear={true}
-              transitionAppearTimeout={ 500 }
+          <div className="resultsAndNoms">
+            <Results
+              finalSearchText={ this.state.finalSearchText }
+              results={ this.state.results }
+              nominateMovie={ this.nominateMovie }
+              nominations={ this.state.nominations }
             >
-              <div className="resultsAndNoms">
-                <Results
-                  finalSearchText={ this.state.finalSearchText }
-                  results={ this.state.results }
-                  nominateMovie={ this.nominateMovie }
-                  nominations={ this.state.nominations }
-                >
-                </Results>
-                <Nominations
-                  nominations={ this.state.nominations }
-                  removeNomination={ this.removeNomination }
-                >
-                </Nominations>
-              </div>
-            </ReactCSSTransitionGroup>
-          }
+            </Results>
+              <Nominations
+                nominations={ this.state.nominations }
+                removeNomination={ this.removeNomination }
+              >
+              </Nominations>
+            </div>
         </div>
       </ReactCSSTransitionGroup>
     );

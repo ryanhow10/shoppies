@@ -4,7 +4,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Nominations extends Component {
     render() {
-        const { nominations, removeNomination } = this.props;
+        const { nominations , removeNomination } = this.props;
         const nominationsList = nominations.map(movie => {
             return (
                 <li className="nomination" key={ movie.imdbID }>
@@ -15,7 +15,8 @@ class Nominations extends Component {
         return ( 
             <div className="nominationsContainer">
                 <p className="nominationsTitle">Nominations</p>
-                <ul>
+                <p className="indicator">{ nominationsList.length < 5 ? 5 - nominationsList.length + ' more nominations required' : 'Nominations complete' }</p>
+                <ul className="nominations">
                     <ReactCSSTransitionGroup
                         transitionName="fade"
                         transitionEnterTimeout={ 500 }
@@ -24,7 +25,6 @@ class Nominations extends Component {
                     { nominationsList }
                     </ReactCSSTransitionGroup>
                 </ul>
-                <p className="indicator">{ nominationsList.length < 5 ? 5 - nominationsList.length + ' more nominations required' : 'Nominations complete' }</p>
             </div>
         );
     }

@@ -13,10 +13,14 @@
     margin: 0.5rem;
 }
 
+.nominations {
+    margin-bottom: 2rem;
+}
+
 .indicator {
     position: absolute;
     bottom: 0.5rem;
-    right: 1rem;
+    right: 1rem;  
     font-size: 0.8em;
     margin: 0;
 }

@@ -17,10 +17,24 @@
     cursor: pointer;
 }
 
+.description {
+    text-align: center;
+    margin: 0.5rem;
+}
+  
+.step {
+    font-size: 1.1em;
+}
+
 /* Specific styling for tablets*/
 @media only screen and (min-width: 768px) {
     .nominateButton {
         float: right;
+    }
+
+    .step {
+        display: inline;
+        margin: 3rem;
     }
 }
 

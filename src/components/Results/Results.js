@@ -18,17 +18,32 @@ class Results extends Component {
             return (<li className="result" key={ movie.imdbID }>{ movie.Title } ({ movie.Year }) <button type="button" className="nominateButton" onClick={ e => nominateMovie(movie) } disabled={ this.isNominated(movie, nominations) || nominations.length === 5 }>Nominate</button></li>)
         });
         return ( 
+            resultList.length > 0 ? 
             <div className="resultsContainer">
-                <p className="resultsTitle">Results for "{ finalSearchText }"</p>
-                <ul>
-                    <ReactCSSTransitionGroup
-                        transitionName="fade"
-                        transitionLeave={ false }
-                        transitionEnterTimeout={ 500 }
-                    >
-                    { resultList }
-                    </ReactCSSTransitionGroup>
-                </ul>
+                <ReactCSSTransitionGroup 
+                    transitionName="fade"
+                    transitionAppear={ true }
+                    transitionAppearTimeout={ 500 }
+                >
+                    <p className="resultsTitle">Results for "{ finalSearchText }"</p>
+                    <ul>
+                        <ReactCSSTransitionGroup
+                            transitionName="fade"
+                            transitionLeave={ false }
+                            transitionEnterTimeout={ 500 }
+                        >
+                        { resultList }
+                        </ReactCSSTransitionGroup>
+                    </ul>
+                </ReactCSSTransitionGroup>
+            </div> :
+            <div className="resultsContainer">
+                <div className="description"> 
+                    <p className="step">1. Search</p>
+                    <p className="step">2. Nominate</p>
+                    <p className="step">3. Repeat</p>
+                    <p>Nominate your 5 favourite films for this year's annual Shoppies in 3 easy steps!</p>
+                </div>
             </div>
         );
     }
