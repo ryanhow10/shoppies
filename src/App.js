@@ -12,7 +12,6 @@ const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 class App extends Component {
   constructor() {
     super();
-
     //Set nominations to locally stored nominations if they exist
     const storedNominations = localStorage.getItem("nominations");
     const nominations = storedNominations ? JSON.parse(storedNominations) : []; 
@@ -48,7 +47,7 @@ class App extends Component {
       this.setSearchResults([]);
       return;
     }
-    axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&type=movie&s=${this.state.searchText}`)
+    axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&type=movie&s=${this.state.searchText}`)
       .then(resp => {
         if(resp.data.Response === 'True') {
           this.handleSearchError("");
