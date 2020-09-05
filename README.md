@@ -12,7 +12,7 @@
 
 ## Extra Features
 7. Animations for page and lists ✅
-8. Display error messages directly from the OMDB API for faulty queries ✅
+8. Display error messages wiith content directly from the OMDB API for faulty queries ✅
 9. Restart button once the user has nominated 5 movies ✅
 10. Save nominations list on exit ✅
 
